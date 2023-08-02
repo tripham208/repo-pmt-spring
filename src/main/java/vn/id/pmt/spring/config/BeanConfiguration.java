@@ -10,7 +10,6 @@ import org.modelmapper.config.Configuration.AccessLevel;
 
 public class BeanConfiguration {
     /**
-     *
      * @return ModelMapper
      * with
      * -    allow private field matching
@@ -18,9 +17,9 @@ public class BeanConfiguration {
     @Bean
     public ModelMapper newModelMapper() {
         ModelMapper modelMapper = new ModelMapper();
-        //modelMapper.getConfiguration()
-        //        .setFieldMatchingEnabled(true)
-//.setFieldAccessLevel(AccessLevel.PRIVATE);
+        modelMapper.getConfiguration()
+                .setFieldMatchingEnabled(true)
+                .setFieldAccessLevel(AccessLevel.PRIVATE);
         return modelMapper;
     }
 }

@@ -8,8 +8,5 @@ import vn.id.pmt.spring.dto.UserDto;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
-    @GetMapping
-    public UserDto getAdmin(){
-        return new UserDto("admin");
-    }
+
 }

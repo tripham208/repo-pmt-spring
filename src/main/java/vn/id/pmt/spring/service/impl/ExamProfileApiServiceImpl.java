@@ -38,7 +38,7 @@ public class ExamProfileApiServiceImpl implements ExamProfileApiService {
         Optional<List<Exam>> exams = Optional.of(examRepository.findAll());
 
         if (exams.get().isEmpty()) {
-            throw new NotFoundException("");
+            throw new NotFoundException("Not found any records.");
         } else {
             List<ExamDto> listExamDto = mappingUtil.mapList(exams.get(), ExamDto.class);
             return Optional.of(listExamDto);

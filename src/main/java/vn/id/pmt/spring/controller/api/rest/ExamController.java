@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import vn.id.pmt.spring.constants.ApiResponseResult;
+import vn.id.pmt.spring.dto.RestApiResponse;
 import vn.id.pmt.spring.service.ExamProfileApiService;
 
 import java.util.Optional;
@@ -23,7 +25,13 @@ public class ExamController {
     public ResponseEntity<Object> getListExam() {
         Optional<Object> exams = apiService.getListExam();
 
-        return exams.map(exam -> new ResponseEntity<>(exam, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        RestApiResponse<Object> response = exams.map(
+                exam -> RestApiResponse.builder()
+                        .result(ApiResponseResult.OK)
+                        .data(exam)
+                        .build())
+                .orElseGet(() -> RestApiResponse.builder().result(ApiResponseResult.ER).build());
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
