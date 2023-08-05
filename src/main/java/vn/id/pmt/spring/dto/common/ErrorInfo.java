@@ -1,16 +1,15 @@
-package vn.id.pmt.spring.dto;
+package vn.id.pmt.spring.dto.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
-@Data
 @Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
-    private Integer userId;
+public class ErrorInfo {
+    private String errorCode;
+    private String errorMessage;
 }

@@ -1,5 +1,6 @@
 package vn.id.pmt.spring.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,5 +18,6 @@ public class ExamDto {
     private Integer math;
     private Integer english;
     private Integer physics;
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyMMdd")
     private LocalDate date;
 }

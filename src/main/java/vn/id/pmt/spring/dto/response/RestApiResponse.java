@@ -1,4 +1,4 @@
-package vn.id.pmt.spring.dto;
+package vn.id.pmt.spring.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
