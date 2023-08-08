@@ -16,7 +16,6 @@ import vn.id.pmt.spring.dto.request.PaginationParams;
 import vn.id.pmt.spring.service.ExamProfileApiService;
 import vn.id.pmt.spring.util.CSVUtil;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 

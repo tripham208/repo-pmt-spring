@@ -29,7 +29,10 @@ public class ExamProfileApiServiceImpl implements ExamProfileApiService {
 
 
     /**
-     * @return Exam
+     * Gets exam by id.
+     *
+     * @return Exam by id
+     * @throws NotFoundException when not found
      */
     @Override
     public Optional<Object> getExamById() throws NotFoundException {
@@ -37,6 +40,8 @@ public class ExamProfileApiServiceImpl implements ExamProfileApiService {
     }
 
     /**
+     * Gets list exam.
+     *
      * @return list Exam
      * @throws NotFoundException when not found
      */
@@ -52,6 +57,13 @@ public class ExamProfileApiServiceImpl implements ExamProfileApiService {
         }
     }
 
+    /**
+     * Gets list exam by page.
+     *
+     * @param params the PaginationParams
+     * @return the list exam by page
+     * @throws NotFoundException when not found
+     */
     @Override
     public Optional<Object> getListExamByPage(PaginationParams params) throws NotFoundException {
         Pageable pageable = PageRequest.of(params.getPage() - 1, params.getPageSize());
@@ -67,6 +79,11 @@ public class ExamProfileApiServiceImpl implements ExamProfileApiService {
         }
     }
 
+    /**
+     * Insert exams by file.
+     *
+     * @param file the file
+     */
     @Override
     public void insertExamsByFile(MultipartFile file) {
         try {
@@ -80,16 +97,15 @@ public class ExamProfileApiServiceImpl implements ExamProfileApiService {
 
     }
 
+    /**
+     * Export csv byte array input stream.
+     *
+     * @return the byte array input stream
+     */
     @Override
     public ByteArrayInputStream exportCSV() {
         List<Exam> exams = examRepository.findAll();
-
-        return CSVUtil.exportCSV(exams);
+        List<ExamDto> examDtoList = mappingUtil.mapList(exams, ExamDto.class);
+        return CSVUtil.exportCSV(examDtoList);
     }
-
-    public void insertExam(Exam exam) {
-        examRepository.save(exam);
-    }
-
-
 }

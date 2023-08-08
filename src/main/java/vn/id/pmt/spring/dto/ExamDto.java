@@ -1,6 +1,8 @@
 package vn.id.pmt.spring.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,9 +17,11 @@ import java.time.LocalDate;
 public class ExamDto {
     private Integer examId;
     private Integer userId;
-    private Integer math;
-    private Integer english;
-    private Integer physics;
-    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyMMdd")
-    private LocalDate date;
+    private String typeExam;
+    private Float listening;
+    private Float reading;
+    private Float writing;
+    private Float speaking;
+    private Float overall;
+    private LocalDate expirationDate;
 }

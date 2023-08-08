@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.HashMap;
@@ -30,10 +30,25 @@ import org.springframework.web.multipart.MultipartFile;
 public class CSVUtil {
     public static String TYPE = "text/csv";
 
+    /**
+     * Return {@code true} if file upload is csv
+     *
+     * @param file The file upload
+     * @return {@code true} if file upload is csv
+     */
     public static boolean isCSVFormat(MultipartFile file) {
         return TYPE.equals(file.getContentType());
     }
 
+
+    /**
+     * Csv to list.
+     *
+     * @param <T>         the type parameter
+     * @param is          the InputStream
+     * @param targetClass the target class
+     * @return the list of target class
+     */
     public static <T> List<T> csvToList(InputStream is, Class<T> targetClass) {
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
              CSVParser csvParser = new CSVParser(fileReader, CSVFormat.DEFAULT.builder().build())) {
@@ -41,22 +56,28 @@ public class CSVUtil {
 
             Optional<CSVRecord> recordHeader = csvParser.stream().findFirst();
             List<CSVRecord> records = csvParser.getRecords();
-            List<T> result = null;
+            List<T> result;
 
-            if (recordHeader.isPresent()) {
-                result = records.stream().map(
-                        record -> convertCSVRecordToObj(record, recordHeader.get(), mapper, targetClass)
-                ).collect(Collectors.toList());
-            }
+            result = recordHeader.map(strings -> records.stream().map(
+                    record -> convertCSVRecordToObj(record, strings, mapper, targetClass)
+            ).collect(Collectors.toList())).orElseGet(ArrayList::new);
 
             return result;
-
         } catch (IOException e) {
             throw new RuntimeException("fail to parse CSV file: " + e.getMessage());
         }
-
     }
 
+    /**
+     * Convert csv record to target class
+     *
+     * @param <T>         the type parameter
+     * @param record      the record
+     * @param header      the header
+     * @param mapper      the mapper
+     * @param targetClass the target class
+     * @return object of target class
+     */
     public static <T> T convertCSVRecordToObj(CSVRecord record, CSVRecord header, ObjectMapper mapper, Class<T> targetClass) {
         int index = 0;
         System.out.println(record.toString());
@@ -69,6 +90,13 @@ public class CSVUtil {
     }
 
 
+    /**
+     * Export csv byte array input stream.
+     *
+     * @param <T>  the type parameter
+     * @param data the data
+     * @return the byte array input stream
+     */
     public static <T> ByteArrayInputStream exportCSV(List<T> data) {
         final CSVFormat format = CSVFormat.DEFAULT.builder().setQuoteMode(QuoteMode.MINIMAL).build();
 
@@ -78,18 +106,16 @@ public class CSVUtil {
 
             ObjectMapper objectMapper = new ObjectMapper()
                     .registerModule(new JavaTimeModule()).setDateFormat(new SimpleDateFormat());
-            Map<String, Object> map = objectMapper.convertValue(data.get(0), new TypeReference<>() {
-            });
+            //Ref: https://www.baeldung.com/jackson-serialize-dates
+            Map<String, Object> map = objectMapper.convertValue(data.get(0), new TypeReference<>() {});
             csvPrinter.printRecord(map.keySet());
 
-
             for (T item : data) {
-                map = objectMapper.convertValue(item, new TypeReference<>() {
-                });
+                map = objectMapper.convertValue(item, new TypeReference<>() {});
                 csvPrinter.printRecord(map.values());
             }
-
             csvPrinter.flush();
+
             return new ByteArrayInputStream(out.toByteArray());
         } catch (IOException e) {
             throw new RuntimeException("fail to import data to CSV file: " + e.getMessage());

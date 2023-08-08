@@ -27,12 +27,18 @@ public class Exam {
     private Integer examId;
     @Column(name = "user_id")
     private Integer userId;
+    @Column(name = "type_exam")
+    private String typeExam;
     @Column
-    private Integer math;
+    private Float listening;
     @Column
-    private Integer english;
+    private Float reading;
     @Column
-    private Integer physics;
+    private Float writing;
     @Column
-    private LocalDate date;
+    private Float speaking;
+    @Column
+    private Float overall;
+    @Column(name = "expiration_date")
+    private LocalDate expirationDate;
 }

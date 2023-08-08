@@ -8,7 +8,7 @@ import vn.id.pmt.spring.entity.jpa.base.BaseModel;
 import java.sql.Timestamp;
 
 /**
- * The type Base entity listener.
+ * The type ScdType1 entity listener.
  */
 public class ScdType1Listener {
 
