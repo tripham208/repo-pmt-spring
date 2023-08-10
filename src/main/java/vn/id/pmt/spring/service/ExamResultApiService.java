@@ -10,7 +10,7 @@ import java.util.Optional;
 /**
  * UserProfileApiService for User Profile API
  */
-public interface ExamProfileApiService {
+public interface ExamResultApiService {
     /**
      * Gets exam by id.
      *

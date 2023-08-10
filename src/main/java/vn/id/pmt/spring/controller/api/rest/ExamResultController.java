@@ -13,7 +13,7 @@ import org.springframework.core.io.InputStreamResource;
 import vn.id.pmt.spring.constants.ApiResponseResult;
 import vn.id.pmt.spring.dto.response.RestApiResponse;
 import vn.id.pmt.spring.dto.request.PaginationParams;
-import vn.id.pmt.spring.service.ExamProfileApiService;
+import vn.id.pmt.spring.service.ExamResultApiService;
 import vn.id.pmt.spring.util.CSVUtil;
 
 import java.util.Optional;
@@ -23,9 +23,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/exam")
 @RequiredArgsConstructor
-public class ExamController {
+public class ExamResultController {
 
-    private final ExamProfileApiService apiService;
+    private final ExamResultApiService apiService;
 
     @GetMapping("/list")
     public ResponseEntity<Object> getAllExam() {
@@ -88,12 +88,11 @@ public class ExamController {
             }
             return response;
         }
-        response = ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(RestApiResponse.builder()
                         .result(ApiResponseResult.ER)
                         .data("Please upload a csv file!")
                         .build());
-        return response;
     }
 
     @GetMapping("/download/csv")

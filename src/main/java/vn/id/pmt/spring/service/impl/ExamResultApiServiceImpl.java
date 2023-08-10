@@ -6,12 +6,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import vn.id.pmt.spring.dto.ExamDto;
+import vn.id.pmt.spring.dto.ExamResultDto;
 import vn.id.pmt.spring.dto.request.PaginationParams;
-import vn.id.pmt.spring.entity.jpa.Exam;
+import vn.id.pmt.spring.entity.jpa.ExamResult;
 import vn.id.pmt.spring.exception.NotFoundException;
-import vn.id.pmt.spring.repository.jpa.ExamRepository;
-import vn.id.pmt.spring.service.ExamProfileApiService;
+import vn.id.pmt.spring.repository.jpa.ExamResultRepository;
+import vn.id.pmt.spring.service.ExamResultApiService;
 import vn.id.pmt.spring.util.CSVUtil;
 import vn.id.pmt.spring.util.MappingUtil;
 
@@ -22,9 +22,9 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ExamProfileApiServiceImpl implements ExamProfileApiService {
+public class ExamResultApiServiceImpl implements ExamResultApiService {
 
-    private final ExamRepository examRepository;
+    private final ExamResultRepository examResultRepository;
     private final MappingUtil mappingUtil;
 
 
@@ -47,13 +47,13 @@ public class ExamProfileApiServiceImpl implements ExamProfileApiService {
      */
     @Override
     public Optional<Object> getListExam() throws NotFoundException {
-        Optional<List<Exam>> exams = Optional.of(examRepository.findAll());
+        Optional<List<ExamResult>> examResults = Optional.of(examResultRepository.findAll());
 
-        if (exams.get().isEmpty()) {
+        if (examResults.get().isEmpty()) {
             throw new NotFoundException("Not found any records.");
         } else {
-            List<ExamDto> listExamDto = mappingUtil.mapList(exams.get(), ExamDto.class);
-            return Optional.of(listExamDto);
+            List<ExamResultDto> listExamResultDto = mappingUtil.mapList(examResults.get(), ExamResultDto.class);
+            return Optional.of(listExamResultDto);
         }
     }
 
@@ -68,14 +68,14 @@ public class ExamProfileApiServiceImpl implements ExamProfileApiService {
     public Optional<Object> getListExamByPage(PaginationParams params) throws NotFoundException {
         Pageable pageable = PageRequest.of(params.getPage() - 1, params.getPageSize());
 
-        Optional<Page<Exam>> exams = Optional.of(examRepository.findAll(pageable));
+        Optional<Page<ExamResult>> examResults = Optional.of(examResultRepository.findAll(pageable));
 
 
-        if (exams.get().isEmpty()) {
+        if (examResults.get().isEmpty()) {
             throw new NotFoundException("Not found any records");
         } else {
-            List<ExamDto> listExamDto = (List<ExamDto>) mappingUtil.mapIterable(exams.get(), ExamDto.class);
-            return Optional.of(listExamDto);
+            List<ExamResultDto> listExamResultDto = (List<ExamResultDto>) mappingUtil.mapIterable(examResults.get(), ExamResultDto.class);
+            return Optional.of(listExamResultDto);
         }
     }
 
@@ -87,9 +87,9 @@ public class ExamProfileApiServiceImpl implements ExamProfileApiService {
     @Override
     public void insertExamsByFile(MultipartFile file) {
         try {
-            List<ExamDto> examDtoList = CSVUtil.csvToList(file.getInputStream(), ExamDto.class);
-            List<Exam> exams = mappingUtil.mapList(examDtoList, Exam.class);
-            examRepository.saveAll(exams);
+            List<ExamResultDto> examResultDtoList = CSVUtil.csvToList(file.getInputStream(), ExamResultDto.class);
+            List<ExamResult> examResults = mappingUtil.mapList(examResultDtoList, ExamResult.class);
+            examResultRepository.saveAll(examResults);
 
         } catch (IOException e) {
             throw new RuntimeException("fail to store csv data: " + e.getMessage());
@@ -104,8 +104,8 @@ public class ExamProfileApiServiceImpl implements ExamProfileApiService {
      */
     @Override
     public ByteArrayInputStream exportCSV() {
-        List<Exam> exams = examRepository.findAll();
-        List<ExamDto> examDtoList = mappingUtil.mapList(exams, ExamDto.class);
-        return CSVUtil.exportCSV(examDtoList);
+        List<ExamResult> examResults = examResultRepository.findAll();
+        List<ExamResultDto> examResultDtoList = mappingUtil.mapList(examResults, ExamResultDto.class);
+        return CSVUtil.exportCSV(examResultDtoList);
     }
 }

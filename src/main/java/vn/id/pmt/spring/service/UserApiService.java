@@ -6,7 +6,7 @@ import vn.id.pmt.spring.exception.NotFoundException;
 /**
  * UserProfileApiService for User Profile API
  */
-public interface UserProfileApiService {
+public interface UserApiService {
     /**
      * @return User
      */

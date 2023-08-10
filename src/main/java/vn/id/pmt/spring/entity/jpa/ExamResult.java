@@ -19,14 +19,24 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "exam")
-public class Exam {
+@Table(name = "exam_result")
+public class ExamResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "exam_result_id")
+    private Integer examResultId;
     @Column(name = "exam_id")
     private Integer examId;
-    @Column(name = "type_exam")
-    private String typeExam;
-    @Column(name = "execute_date")
-    private LocalDate executeDate;
+    @Column(name = "user_id")
+    private Integer userId;
+    @Column
+    private Float listening;
+    @Column
+    private Float reading;
+    @Column
+    private Float writing;
+    @Column
+    private Float speaking;
+    @Column
+    private Float overall;
 }

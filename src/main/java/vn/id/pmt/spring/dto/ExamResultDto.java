@@ -1,8 +1,5 @@
 package vn.id.pmt.spring.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +11,7 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExamDto {
+public class ExamResultDto {
     private Integer examId;
     private Integer userId;
     private String typeExam;
@@ -23,5 +20,4 @@ public class ExamDto {
     private Float writing;
     private Float speaking;
     private Float overall;
-    private LocalDate expirationDate;
 }

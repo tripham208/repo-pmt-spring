@@ -5,7 +5,6 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.CreatedDate;
 
 
 import java.io.Serializable;
@@ -23,7 +22,7 @@ public class BaseModel implements Serializable {
     @Column(name = "updated_at")
     protected Timestamp updatedAt;
 
-    @Column(name = "is_deleted")
-    protected Boolean isDeleted;
+    @Column(name = "record_status")
+    protected Boolean status;
 
 }

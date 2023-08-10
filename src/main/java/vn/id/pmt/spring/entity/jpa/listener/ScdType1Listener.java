@@ -21,7 +21,7 @@ public class ScdType1Listener {
   public void prepareBeforeCreate(BaseModel baseModel) {
     baseModel.setCreatedAt(new Timestamp(System.currentTimeMillis()));
     baseModel.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-    baseModel.setIsDeleted(false);
+    baseModel.setStatus(true);
   }
 
   /**
