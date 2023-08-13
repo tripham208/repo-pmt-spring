@@ -5,7 +5,7 @@ import jakarta.annotation.Nonnull;
 
 public class NotFoundException extends RuntimeException {
 
-    private static final String DEFAULT_MESSAGE = "Not Found.";
+    private static final String DEFAULT_MESSAGE = "Not Found!";
 
     public NotFoundException() {
         super(DEFAULT_MESSAGE);

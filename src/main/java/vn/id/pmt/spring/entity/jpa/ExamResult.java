@@ -30,13 +30,5 @@ public class ExamResult {
     @Column(name = "user_id")
     private Integer userId;
     @Column
-    private Float listening;
-    @Column
-    private Float reading;
-    @Column
-    private Float writing;
-    @Column
-    private Float speaking;
-    @Column
     private Float overall;
 }

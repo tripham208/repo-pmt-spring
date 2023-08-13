@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.modelmapper.config.Configuration.AccessLevel;
 
 @Configuration
-
 public class BeanConfiguration {
     /**
      * @return ModelMapper

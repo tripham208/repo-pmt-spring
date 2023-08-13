@@ -35,7 +35,7 @@ public class ExamResultApiServiceImpl implements ExamResultApiService {
      * @throws NotFoundException when not found
      */
     @Override
-    public Optional<Object> getExamById() throws NotFoundException {
+    public Optional<Object> getExamResultById() throws NotFoundException {
         return Optional.empty();
     }
 
@@ -46,7 +46,7 @@ public class ExamResultApiServiceImpl implements ExamResultApiService {
      * @throws NotFoundException when not found
      */
     @Override
-    public Optional<Object> getListExam() throws NotFoundException {
+    public Optional<Object> getListExamResult() throws NotFoundException {
         Optional<List<ExamResult>> examResults = Optional.of(examResultRepository.findAll());
 
         if (examResults.get().isEmpty()) {
@@ -65,7 +65,7 @@ public class ExamResultApiServiceImpl implements ExamResultApiService {
      * @throws NotFoundException when not found
      */
     @Override
-    public Optional<Object> getListExamByPage(PaginationParams params) throws NotFoundException {
+    public Optional<Object> getListExamResultByPage(PaginationParams params) throws NotFoundException {
         Pageable pageable = PageRequest.of(params.getPage() - 1, params.getPageSize());
 
         Optional<Page<ExamResult>> examResults = Optional.of(examResultRepository.findAll(pageable));
@@ -85,7 +85,7 @@ public class ExamResultApiServiceImpl implements ExamResultApiService {
      * @param file the file
      */
     @Override
-    public void insertExamsByFile(MultipartFile file) {
+    public void insertExamResultByFile(MultipartFile file) {
         try {
             List<ExamResultDto> examResultDtoList = CSVUtil.csvToList(file.getInputStream(), ExamResultDto.class);
             List<ExamResult> examResults = mappingUtil.mapList(examResultDtoList, ExamResult.class);

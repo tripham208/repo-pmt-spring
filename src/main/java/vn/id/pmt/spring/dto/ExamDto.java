@@ -1,5 +1,6 @@
 package vn.id.pmt.spring.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,9 +12,8 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExamResultDto {
+public class ExamDto {
     private Integer examId;
-    private Integer userId;
     private String typeExam;
-    private Float overall;
+    private LocalDate executeDate;
 }

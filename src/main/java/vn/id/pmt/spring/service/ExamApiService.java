@@ -1,23 +1,22 @@
 package vn.id.pmt.spring.service;
 
-import org.springframework.web.multipart.MultipartFile;
+import vn.id.pmt.spring.dto.ExamDto;
 import vn.id.pmt.spring.dto.request.PaginationParams;
 import vn.id.pmt.spring.exception.NotFoundException;
 
-import java.io.ByteArrayInputStream;
 import java.util.Optional;
 
 /**
  * UserProfileApiService for User Profile API
  */
-public interface ExamResultApiService {
+public interface ExamApiService {
     /**
      * Gets exam by id.
      *
      * @return Exam by id
      * @throws NotFoundException when not found
      */
-    Optional<Object> getExamResultById() throws NotFoundException;
+    Optional<Object> getExamById() throws NotFoundException;
 
     /**
      * Gets list exam.
@@ -25,7 +24,7 @@ public interface ExamResultApiService {
      * @return list Exam
      * @throws NotFoundException when not found
      */
-    Optional<Object> getListExamResult() throws NotFoundException;
+    Optional<Object> getListExam() throws NotFoundException;
 
     /**
      * Gets list exam by page.
@@ -34,20 +33,13 @@ public interface ExamResultApiService {
      * @return the list exam by page
      * @throws NotFoundException when not found
      */
-    Optional<Object> getListExamResultByPage(PaginationParams params) throws NotFoundException;
+    Optional<Object> getListExamByPage(PaginationParams params) throws NotFoundException;
 
-    /**
-     * Insert exams by file.
-     *
-     * @param file the file
-     */
-    void insertExamResultByFile(MultipartFile file);
 
-    /**
-     * Export csv byte array input stream.
-     *
-     * @return the byte array input stream
-     */
-    ByteArrayInputStream exportCSV();
+    void insertExam(ExamDto examDto);
+
+    void updateExam(ExamDto examDto);
+
+    void deleteExam(ExamDto examDto);
 
 }

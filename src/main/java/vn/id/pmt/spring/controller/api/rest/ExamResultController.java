@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.InputStreamResource;
@@ -21,15 +22,17 @@ import java.util.Optional;
 
 @Log4j2
 @RestController
-@RequestMapping("/exam")
+@RequestMapping("/exam_result")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 public class ExamResultController {
 
     private final ExamResultApiService apiService;
 
     @GetMapping("/list")
+    @PreAuthorize("hasAnyAuthority('admin:read')")
     public ResponseEntity<Object> getAllExam() {
-        Optional<Object> exams = apiService.getListExam();
+        Optional<Object> exams = apiService.getListExamResult();
 
         RestApiResponse<Object> response = exams.map(
                         exam -> RestApiResponse.builder()
@@ -51,7 +54,7 @@ public class ExamResultController {
                 .pageSize(pageSize)
                 .build();
 
-        Optional<Object> exams = apiService.getListExamByPage(params);
+        Optional<Object> exams = apiService.getListExamResultByPage(params);
 
         RestApiResponse<Object> response = exams.map(
                         exam -> RestApiResponse.builder()
@@ -70,7 +73,7 @@ public class ExamResultController {
 
         if (CSVUtil.isCSVFormat(file)) {
             try {
-                apiService.insertExamsByFile(file);
+                apiService.insertExamResultByFile(file);
 
                 response = ResponseEntity.status(HttpStatus.OK)
                         .body(RestApiResponse.builder()
@@ -106,10 +109,9 @@ public class ExamResultController {
                 .body(file);
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<Object> test() {
-        apiService.exportCSV();
-        return ResponseEntity.ok()
-                .body("file");
+    @GetMapping("/healthcheck")
+    public ResponseEntity<Object> healthCheck() {
+        RestApiResponse<Object> response = RestApiResponse.builder().result(ApiResponseResult.OK).data("hello").build();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
