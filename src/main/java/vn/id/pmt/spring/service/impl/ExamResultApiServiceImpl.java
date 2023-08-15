@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import vn.id.pmt.spring.dto.ExamResultDto;
+import vn.id.pmt.spring.dto.request.ExamResultParams;
 import vn.id.pmt.spring.dto.request.PaginationParams;
 import vn.id.pmt.spring.entity.jpa.ExamResult;
 import vn.id.pmt.spring.exception.NotFoundException;
@@ -37,8 +38,15 @@ public class ExamResultApiServiceImpl implements ExamResultApiService {
      * @throws NotFoundException when not found
      */
     @Override
-    public Optional<Object> getExamResultById() throws NotFoundException {
-        return Optional.empty();
+    public Optional<Object> getResultByUserAndExamId(ExamResultParams params) throws NotFoundException {
+        Optional<ExamResult> examResult = examResultRepository.findByExamIdAndUserId(params.getExamId(), params.getUserId());
+
+        if (examResult.isEmpty()) {
+            throw new NotFoundException("Not found any records.");
+        } else {
+            ExamResultDto examResultDto = mappingUtil.map(examResult.get(), ExamResultDto.class);
+            return Optional.of(examResultDto);
+        }
     }
 
     /**
@@ -101,13 +109,32 @@ public class ExamResultApiServiceImpl implements ExamResultApiService {
 
     }
 
+
+    /**
+     * Export csv byte array input stream.
+     *
+     * @return the byte array input stream
+     */
+    @Override
+    public ByteArrayInputStream exportResultByUserAndExamToCSV(ExamResultParams params) {
+
+        Optional<ExamResult> examResult = examResultRepository.findByExamIdAndUserId(params.getExamId(), params.getUserId());
+
+        if (examResult.isEmpty()) {
+            throw new NotFoundException("Not found any records.");
+        } else {
+            ExamResultDto examResultDto = mappingUtil.map(examResult.get(), ExamResultDto.class);
+            return CSVUtil.exportCSV(List.of(examResultDto));
+        }
+    }
+
     /**
      * Export csv
      *
      * @return the byte array input stream : file csv
      */
     @Override
-    public ByteArrayInputStream exportCSV() {
+    public ByteArrayInputStream exportExamResultsToCSV() {
         List<ExamResult> examResults = examResultRepository.findAll();
         List<ExamResultDto> examResultDtoList = mappingUtil.mapList(examResults, ExamResultDto.class);
         return CSVUtil.exportCSV(examResultDtoList);

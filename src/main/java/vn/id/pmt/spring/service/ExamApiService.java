@@ -6,17 +6,19 @@ import vn.id.pmt.spring.exception.NotFoundException;
 
 import java.util.Optional;
 
+
 /**
- * UserProfileApiService for User Profile API
+ * The interface Exam api service.
  */
 public interface ExamApiService {
     /**
      * Gets exam by id.
      *
+     * @param id the id
      * @return Exam by id
      * @throws NotFoundException when not found
      */
-    Optional<Object> getExamById() throws NotFoundException;
+    Optional<Object> getExamById(Integer id) throws NotFoundException;
 
     /**
      * Gets list exam.
@@ -36,10 +38,27 @@ public interface ExamApiService {
     Optional<Object> getListExamByPage(PaginationParams params) throws NotFoundException;
 
 
-    void insertExam(ExamDto examDto);
+    /**
+     * Insert exam.
+     *
+     * @param examDto the exam dto
+     */
+    void insertExam(ExamDto examDto) ;
 
-    void updateExam(ExamDto examDto);
+    /**
+     * Update exam.
+     *
+     * @param examDto the exam dto
+     * @throws NotFoundException when not found
+     */
+    void updateExam(ExamDto examDto) throws NotFoundException;
 
-    void deleteExam(ExamDto examDto);
+    /**
+     * Delete exam.
+     *
+     * @param id of the exam
+     * @throws NotFoundException when not found
+     */
+    void deleteExam(Integer id) throws NotFoundException;
 
 }

@@ -1,6 +1,7 @@
 package vn.id.pmt.spring.service;
 
 import org.springframework.web.multipart.MultipartFile;
+import vn.id.pmt.spring.dto.request.ExamResultParams;
 import vn.id.pmt.spring.dto.request.PaginationParams;
 import vn.id.pmt.spring.exception.NotFoundException;
 
@@ -17,7 +18,7 @@ public interface ExamResultApiService {
      * @return Exam by id
      * @throws NotFoundException when not found
      */
-    Optional<Object> getExamResultById() throws NotFoundException;
+    Optional<Object> getResultByUserAndExamId(ExamResultParams params) throws NotFoundException;
 
     /**
      * Gets list exam.
@@ -48,6 +49,12 @@ public interface ExamResultApiService {
      *
      * @return the byte array input stream
      */
-    ByteArrayInputStream exportCSV();
+    ByteArrayInputStream exportExamResultsToCSV();
 
+    /**
+     * Export csv byte array input stream.
+     *
+     * @return the byte array input stream
+     */
+    ByteArrayInputStream exportResultByUserAndExamToCSV(ExamResultParams params);
 }

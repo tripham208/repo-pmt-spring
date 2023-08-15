@@ -44,5 +44,4 @@ public class AuthController {
         RestApiResponse<Object> response = RestApiResponse.builder().result(ApiResponseResult.ER).data("access-denied").build();
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
-
 }

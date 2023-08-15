@@ -3,9 +3,6 @@ package vn.id.pmt.spring.service.impl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +17,6 @@ import vn.id.pmt.spring.entity.cache.TokenBlacklist;
 import vn.id.pmt.spring.entity.jpa.User;
 import vn.id.pmt.spring.exception.AlreadyExistsException;
 import vn.id.pmt.spring.exception.NotFoundException;
-import vn.id.pmt.spring.repository.TokenBlacklistRepository;
 import vn.id.pmt.spring.repository.jpa.UserRepository;
 import vn.id.pmt.spring.service.AuthenticationService;
 import vn.id.pmt.spring.service.TokenService;
@@ -28,6 +24,9 @@ import vn.id.pmt.spring.util.JwtUtil;
 
 import java.util.Optional;
 
+/**
+ * The type Authentication service.
+ */
 @Service
 @AllArgsConstructor(onConstructor = @__(@Lazy))
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -78,15 +77,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .username(userResult.get().getUsername())
                 .accessToken(jwtToken)
                 .build();
-        /*
-        var refreshToken = jwtService.generateRefreshToken(user);
-        revokeAllUserTokens(user);
-        saveUserToken(user, jwtToken);
-        return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .build();
-        */
     }
 
     @Override

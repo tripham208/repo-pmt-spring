@@ -2,8 +2,6 @@ package vn.id.pmt.spring.service;
 
 import vn.id.pmt.spring.entity.cache.TokenBlacklist;
 
-import java.util.Optional;
-
 public interface TokenService {
 
     /**

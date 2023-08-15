@@ -13,6 +13,7 @@ import vn.id.pmt.spring.constants.auth.Role;
 import vn.id.pmt.spring.entity.jpa.base.BaseModel;
 import vn.id.pmt.spring.entity.jpa.listener.ScdType1Listener;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 
@@ -37,6 +38,9 @@ public class User extends BaseModel implements UserDetails {
 
     @Column(name = "full_name")
     private String fullName;
+
+    @Column
+    private LocalDate birthday;
 
     @Enumerated(EnumType.STRING)
     private Role role;
