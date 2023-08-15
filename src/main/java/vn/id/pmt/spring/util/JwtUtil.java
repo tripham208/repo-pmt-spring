@@ -19,11 +19,11 @@ import java.util.function.Function;
 public class JwtUtil {
 
     @Value("${application.security.jwt.secret-key}")
-    private String SECRET_KEY;
+    private String secretKey;
     @Value("${application.security.jwt.expiration}")
-    private long EXPIRATION;
+    private long expiration;
     @Value("${application.security.jwt.refresh-token.expiration}")
-    private long REFRESH_EXPIRATION;
+    private long refreshExpiration;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -42,13 +42,13 @@ public class JwtUtil {
             Map<String, Object> extraClaims,
             UserDetails userDetails
     ) {
-        return buildToken(extraClaims, userDetails, EXPIRATION);
+        return buildToken(extraClaims, userDetails, expiration);
     }
 
     public String generateRefreshToken(
             UserDetails userDetails
     ) {
-        return buildToken(new HashMap<>(), userDetails, REFRESH_EXPIRATION);
+        return buildToken(new HashMap<>(), userDetails, refreshExpiration);
     }
 
     private String buildToken(
@@ -89,12 +89,7 @@ public class JwtUtil {
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
-    }
-
-    public String getUsernameFromToken(String token) {
-        final Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
-        return claims.getSubject();
     }
 }

@@ -1,6 +1,8 @@
 package vn.id.pmt.spring.service.impl;
 
+
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -46,6 +48,7 @@ public class ExamResultApiServiceImpl implements ExamResultApiService {
      * @throws NotFoundException when not found
      */
     @Override
+    @Cacheable("exam_results")
     public Optional<Object> getListExamResult() throws NotFoundException {
         Optional<List<ExamResult>> examResults = Optional.of(examResultRepository.findAll());
 
@@ -65,6 +68,7 @@ public class ExamResultApiServiceImpl implements ExamResultApiService {
      * @throws NotFoundException when not found
      */
     @Override
+    @Cacheable("exam_results_page")
     public Optional<Object> getListExamResultByPage(PaginationParams params) throws NotFoundException {
         Pageable pageable = PageRequest.of(params.getPage() - 1, params.getPageSize());
 
@@ -98,9 +102,9 @@ public class ExamResultApiServiceImpl implements ExamResultApiService {
     }
 
     /**
-     * Export csv byte array input stream.
+     * Export csv
      *
-     * @return the byte array input stream
+     * @return the byte array input stream : file csv
      */
     @Override
     public ByteArrayInputStream exportCSV() {

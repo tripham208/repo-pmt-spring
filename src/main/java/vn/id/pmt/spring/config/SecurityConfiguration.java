@@ -3,6 +3,7 @@ package vn.id.pmt.spring.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,7 +23,7 @@ import vn.id.pmt.spring.service.AuthenticationService;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-    //private final AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthFilter jwtAuthFilter;
 
@@ -41,7 +42,7 @@ public class SecurityConfiguration {
                 .logout(logout -> logout
                         .logoutUrl("/auth/logout")
                         .logoutSuccessUrl("/hello")
-                        // .addLogoutHandler(authenticationService)
+                        .addLogoutHandler(authenticationService)
                         .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext()))
                 );
 

@@ -7,7 +7,14 @@ services:
       - 'MYSQL_ROOT_PASSWORD=verysecret'
       - 'MYSQL_USER=myuser'
     ports:
-      - '3306'
+      - '3306:3306'
+  redis:
+    image: 'redis:latest'
+    environment:
+      - 'REDIS_PASSWORD=password123'
+    ports:
+      - '6379:6379'
+
 # postgres:
 #   image: 'postgres:latest'
 #   environment:

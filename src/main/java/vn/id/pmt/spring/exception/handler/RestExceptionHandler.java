@@ -72,7 +72,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(response);
     }
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<Object> handlePermissionError(final BadCredentialsException  ex) {
+    public ResponseEntity<Object> handleCredentialsError(final BadCredentialsException  ex) {
         RestApiResponse<?> response = RestApiResponse.builder()
                 .result(ApiResponseResult.ER)
                 .errorMessage(ex.getMessage())
