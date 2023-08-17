@@ -44,12 +44,12 @@ public class UserController {
                 .pageSize(pageSize)
                 .build();
 
-        Optional<Object> exams = apiService.getListUserByPage(params);
+        Optional<Object> users = apiService.getListUserByPage(params);
 
-        RestApiResponse<Object> response = exams.map(
-                        exam -> RestApiResponse.builder()
+        RestApiResponse<Object> response = users.map(
+                        user -> RestApiResponse.builder()
                                 .result(ApiResponseResult.OK)
-                                .data(exam)
+                                .data(user)
                                 .build())
                 .orElseGet(() -> RestApiResponse.builder().result(ApiResponseResult.ER).build());
 
@@ -74,7 +74,7 @@ public class UserController {
     @GetMapping(value = "/info")
     @PreAuthorize("hasAnyAuthority('admin:read','user:read')")
     public ResponseEntity<Object> getInfo(Authentication authentication) {
-        UserDetails user = apiService.loadUserByUsername(authentication.getName());
+        Optional<Object> user = apiService.getUserByUsername(authentication.getName());
 
         RestApiResponse<Object> response = RestApiResponse.builder()
                                 .result(ApiResponseResult.OK)
@@ -92,7 +92,7 @@ public class UserController {
                 .result(ApiResponseResult.OK)
                 .data("user create successfully!")
                 .build();
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping(value = "/update")
@@ -114,7 +114,7 @@ public class UserController {
 
         RestApiResponse<Object> response = RestApiResponse.builder()
                 .result(ApiResponseResult.OK)
-                .data("user update successfully!")
+                .data("user disable successfully!")
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

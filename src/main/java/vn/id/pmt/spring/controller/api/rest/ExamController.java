@@ -70,7 +70,7 @@ public class ExamController {
 
         RestApiResponse<Object> response = RestApiResponse.builder()
                 .result(ApiResponseResult.OK)
-                .data("user create successfully!")
+                .data("exam create successfully!")
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -82,19 +82,19 @@ public class ExamController {
 
         RestApiResponse<Object> response = RestApiResponse.builder()
                 .result(ApiResponseResult.OK)
-                .data("user update successfully!")
+                .data("exam update successfully!")
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PutMapping(value = "{id}/delete")
+    @DeleteMapping(value = "{id}/delete")
     @PreAuthorize("hasAnyAuthority('admin:delete')")
     public ResponseEntity<Object> deleteExam(@PathVariable Integer id) {
         apiService.deleteExam(id);
 
         RestApiResponse<Object> response = RestApiResponse.builder()
                 .result(ApiResponseResult.OK)
-                .data("user update successfully!")
+                .data("exam delete successfully!")
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

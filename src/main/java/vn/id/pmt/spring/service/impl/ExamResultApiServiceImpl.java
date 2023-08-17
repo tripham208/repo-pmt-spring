@@ -56,7 +56,7 @@ public class ExamResultApiServiceImpl implements ExamResultApiService {
      * @throws NotFoundException when not found
      */
     @Override
-    @Cacheable("exam_results")
+    @Cacheable("ExamResult")
     public Optional<Object> getListExamResult() throws NotFoundException {
         Optional<List<ExamResult>> examResults = Optional.of(examResultRepository.findAll());
 
@@ -76,7 +76,7 @@ public class ExamResultApiServiceImpl implements ExamResultApiService {
      * @throws NotFoundException when not found
      */
     @Override
-    @Cacheable("exam_results_page")
+    @Cacheable("ExamResultPage")
     public Optional<Object> getListExamResultByPage(PaginationParams params) throws NotFoundException {
         Pageable pageable = PageRequest.of(params.getPage() - 1, params.getPageSize());
 

@@ -24,6 +24,15 @@ public interface UserApiService {
     Optional<Object> getUserById(Integer id) throws NotFoundException;
 
     /**
+     * Gets user by id.
+     *
+     * @param username :
+     * @return the user
+     * @throws NotFoundException when not found user by username
+     */
+    Optional<Object> getUserByUsername(String username) throws NotFoundException;
+
+    /**
      * Gets list user by page.
      *
      * @param params the params

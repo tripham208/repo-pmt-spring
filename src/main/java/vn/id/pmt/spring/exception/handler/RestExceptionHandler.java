@@ -1,5 +1,6 @@
 package vn.id.pmt.spring.exception.handler;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,6 +80,27 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .build();
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(response);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<Object> handleCredentialsError(final ExpiredJwtException  ex) {
+        RestApiResponse<?> response = RestApiResponse.builder()
+                .result(ApiResponseResult.ER)
+                .errorMessage(ex.getMessage())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(response);
+    }
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Object> handleCredentialsError(final RuntimeException  ex) {
+        RestApiResponse<?> response = RestApiResponse.builder()
+                .result(ApiResponseResult.ER)
+                .errorMessage(ex.getMessage())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(response);
     }
 }

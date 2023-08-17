@@ -1,6 +1,7 @@
 package vn.id.pmt.spring.service.impl;
 
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,7 @@ import vn.id.pmt.spring.util.MappingUtil;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -66,6 +68,25 @@ public class UserApiServiceImpl implements UserApiService, UserDetailsService {
     }
 
     /**
+     * Gets user by id.
+     *
+     * @param username :
+     * @return the user
+     * @throws NotFoundException when not found user by username
+     */
+    @Override
+    public Optional<Object> getUserByUsername(String username) throws NotFoundException {
+
+        User user = userRepository.findByUsername(username);
+        if (Objects.isNull(user)) {
+            throw new UsernameNotFoundException("User " + username + " not found!");
+        } else {
+            UserDto userDto = mappingUtil.map(user, UserDto.class);
+            return Optional.of(userDto);
+        }
+    }
+
+    /**
      * Gets list user by page.
      *
      * @param params the params
@@ -73,16 +94,16 @@ public class UserApiServiceImpl implements UserApiService, UserDetailsService {
      * @throws NotFoundException when not found any user
      */
     @Override
+    @Cacheable("UserPage")
     public Optional<Object> getListUserByPage(PaginationParams params) throws NotFoundException {
         Pageable pageable = PageRequest.of(params.getPage() - 1, params.getPageSize());
 
-        Optional<Page<User>> examResults = Optional.of(userRepository.findAll(pageable));
+        Optional<Page<User>> users = Optional.of(userRepository.findAll(pageable));
 
-
-        if (examResults.get().isEmpty()) {
+        if (users.get().isEmpty()) {
             throw new NotFoundException("Not found any records");
         } else {
-            List<UserDto> userDtoList = (List<UserDto>) mappingUtil.mapIterable(examResults.get(), UserDto.class);
+            List<UserDto> userDtoList = (List<UserDto>) mappingUtil.mapIterable(users.get(), UserDto.class);
             return Optional.of(userDtoList);
         }
     }
@@ -148,6 +169,7 @@ public class UserApiServiceImpl implements UserApiService, UserDetailsService {
         }
 
         User user = mappingUtil.map(userDto, User.class);
+        user.setUserId(null);
         user.setPassword(passwordEncoder.encode(user.getUsername() + "123"));
         userRepository.save(user);
     }

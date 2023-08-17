@@ -1,6 +1,7 @@
 package vn.id.pmt.spring.service.impl;
 
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +50,7 @@ public class ExamApiServiceImpl implements ExamApiService {
      * @throws NotFoundException when not found
      */
     @Override
+    @Cacheable("ListExam")
     public Optional<Object> getListExam() throws NotFoundException {
 
         Optional<List<Exam>> examResults = Optional.of(repository.findAll());
@@ -69,6 +71,7 @@ public class ExamApiServiceImpl implements ExamApiService {
      * @throws NotFoundException when not found
      */
     @Override
+    @Cacheable("ListExamPage")
     public Optional<Object> getListExamByPage(PaginationParams params) throws NotFoundException {
         Pageable pageable = PageRequest.of(params.getPage() - 1, params.getPageSize());
 
@@ -91,6 +94,7 @@ public class ExamApiServiceImpl implements ExamApiService {
     @Override
     public void insertExam(ExamDto examDto) {
         Exam exam = mappingUtil.map(examDto, Exam.class);
+        exam.setExamId(null);
         repository.save(exam);
     }
 

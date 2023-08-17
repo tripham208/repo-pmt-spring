@@ -16,8 +16,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -105,13 +108,17 @@ public class CSVUtil {
 
 
             ObjectMapper objectMapper = new ObjectMapper()
-                    .registerModule(new JavaTimeModule()).setDateFormat(new SimpleDateFormat());
+                    .registerModule(new JavaTimeModule()).setDateFormat(new SimpleDateFormat())
+                    .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
+                    .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+                    ;
             //Ref: https://www.baeldung.com/jackson-serialize-dates
             Map<String, Object> map = objectMapper.convertValue(data.get(0), new TypeReference<>() {});
             csvPrinter.printRecord(map.keySet());
 
             for (T item : data) {
                 map = objectMapper.convertValue(item, new TypeReference<>() {});
+                System.out.println(map);
                 csvPrinter.printRecord(map.values());
             }
             csvPrinter.flush();

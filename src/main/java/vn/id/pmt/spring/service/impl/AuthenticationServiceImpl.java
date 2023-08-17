@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -52,6 +53,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .password(passwordEncoder.encode(authParams.getPassword()))
                     .fullName(authParams.getFullName())
                     .role(Role.USER)
+                    .birthday(authParams.getBirthday())
                     .build();
 
             userRepository.save(user);
@@ -64,6 +66,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         if (userResult.isEmpty()) {
             throw new NotFoundException("username " + authParams.getUsername() + " not found!");
+        }
+        if (!userResult.get().getStatus()) {
+            throw new AccessDeniedException("username " + authParams.getUsername() + " blocked!");
         }
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

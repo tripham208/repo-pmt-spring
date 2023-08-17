@@ -20,14 +20,14 @@ public class AuthController {
 
     @GetMapping("/login")
     public ResponseEntity<Object> authenticate(@RequestBody AuthParams request) {
-        AuthResponse authResponse =  service.login(request);
+        AuthResponse authResponse = service.login(request);
 
         RestApiResponse<Object> response = RestApiResponse.builder().result(ApiResponseResult.OK).data(authResponse).build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Object> register(@RequestBody  AuthParams request) {
+    public ResponseEntity<Object> register(@RequestBody AuthParams request) {
         service.register(request);
         RestApiResponse<Object> response = RestApiResponse.builder().result(ApiResponseResult.OK).data("user create success").build();
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
@@ -20,7 +21,7 @@ import java.time.LocalDate;
 @Builder
 @Entity
 @Table(name = "exam_result")
-public class ExamResult {
+public class ExamResult implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "exam_result_id")
