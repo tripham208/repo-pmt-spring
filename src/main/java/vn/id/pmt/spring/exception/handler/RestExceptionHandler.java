@@ -28,6 +28,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(response);
     }
+
     @ExceptionHandler(AlreadyExistsException.class)
     public ResponseEntity<Object> handleAlreadyExistsException(final AlreadyExistsException ex) {
         RestApiResponse<?> response = RestApiResponse.builder()
@@ -35,7 +36,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .errorMessage(ex.getMessage())
                 .build();
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(response);
     }
 
@@ -72,8 +73,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(response);
     }
+
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<Object> handleCredentialsError(final BadCredentialsException  ex) {
+    public ResponseEntity<Object> handleCredentialsError(final BadCredentialsException ex) {
         RestApiResponse<?> response = RestApiResponse.builder()
                 .result(ApiResponseResult.ER)
                 .errorMessage(ex.getMessage())
@@ -84,7 +86,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ExpiredJwtException.class)
-    public ResponseEntity<Object> handleCredentialsError(final ExpiredJwtException  ex) {
+    public ResponseEntity<Object> handleCredentialsError(final ExpiredJwtException ex) {
         RestApiResponse<?> response = RestApiResponse.builder()
                 .result(ApiResponseResult.ER)
                 .errorMessage(ex.getMessage())
@@ -93,8 +95,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(response);
     }
+
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Object> handleCredentialsError(final RuntimeException  ex) {
+    public ResponseEntity<Object> handleCredentialsError(final RuntimeException ex) {
         RestApiResponse<?> response = RestApiResponse.builder()
                 .result(ApiResponseResult.ER)
                 .errorMessage(ex.getMessage())

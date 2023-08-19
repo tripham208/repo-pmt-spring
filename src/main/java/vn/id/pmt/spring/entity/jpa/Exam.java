@@ -1,18 +1,15 @@
 package vn.id.pmt.spring.entity.jpa;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import vn.id.pmt.spring.entity.jpa.examresult.ExamResult;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -29,4 +26,7 @@ public class Exam {
     private String typeExam;
     @Column(name = "execute_date")
     private LocalDate executeDate;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "exam_id", referencedColumnName = "exam_id")
+    private List<ExamResult> examResults;
 }

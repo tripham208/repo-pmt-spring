@@ -37,7 +37,7 @@ public class UserApiServiceImpl implements UserApiService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final MappingUtil mappingUtil;
-    private  PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) {

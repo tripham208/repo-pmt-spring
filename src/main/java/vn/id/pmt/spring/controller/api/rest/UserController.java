@@ -10,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vn.id.pmt.spring.constants.ApiResponseResult;
@@ -77,9 +76,9 @@ public class UserController {
         Optional<Object> user = apiService.getUserByUsername(authentication.getName());
 
         RestApiResponse<Object> response = RestApiResponse.builder()
-                                .result(ApiResponseResult.OK)
-                                .data(user)
-                                .build();
+                .result(ApiResponseResult.OK)
+                .data(user)
+                .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -120,7 +119,6 @@ public class UserController {
     }
 
 
-
     @PostMapping("/upload/csv")
     @PreAuthorize("hasAnyAuthority('admin:create')")
     public ResponseEntity<Object> insertUsersWithFile(@RequestParam("file") MultipartFile file) {
@@ -131,7 +129,7 @@ public class UserController {
             try {
                 apiService.insertUserByFile(file);
 
-                response = ResponseEntity.status(HttpStatus.OK)
+                response = ResponseEntity.status(HttpStatus.CREATED)
                         .body(RestApiResponse.builder()
                                 .result(ApiResponseResult.OK)
                                 .data("Uploaded the file successfully: " + file.getOriginalFilename())
@@ -153,7 +151,6 @@ public class UserController {
                         .data("Please upload a csv file!")
                         .build());
     }
-
 
 
     @GetMapping("/download/csv")

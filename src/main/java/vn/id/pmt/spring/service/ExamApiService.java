@@ -1,6 +1,6 @@
 package vn.id.pmt.spring.service;
 
-import vn.id.pmt.spring.dto.ExamDto;
+import vn.id.pmt.spring.dto.response.exam.ExamDto;
 import vn.id.pmt.spring.dto.request.PaginationParams;
 import vn.id.pmt.spring.exception.NotFoundException;
 
@@ -43,7 +43,7 @@ public interface ExamApiService {
      *
      * @param examDto the exam dto
      */
-    void insertExam(ExamDto examDto) ;
+    void insertExam(ExamDto examDto);
 
     /**
      * Update exam.

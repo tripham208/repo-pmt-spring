@@ -1,7 +1,7 @@
 package vn.id.pmt.spring.repository.jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import vn.id.pmt.spring.entity.jpa.ExamResult;
+import vn.id.pmt.spring.entity.jpa.examresult.ExamResult;
 
 import java.util.Optional;
 

@@ -18,10 +18,10 @@ import vn.id.pmt.spring.entity.cache.TokenBlacklist;
 import vn.id.pmt.spring.entity.jpa.User;
 import vn.id.pmt.spring.exception.AlreadyExistsException;
 import vn.id.pmt.spring.exception.NotFoundException;
+import vn.id.pmt.spring.util.JwtUtil;
 import vn.id.pmt.spring.repository.jpa.UserRepository;
 import vn.id.pmt.spring.service.AuthenticationService;
 import vn.id.pmt.spring.service.TokenService;
-import vn.id.pmt.spring.util.JwtUtil;
 
 import java.util.Optional;
 
@@ -38,7 +38,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final TokenService tokenService;
     private final JwtUtil jwtUtil;
-
 
 
     @Override

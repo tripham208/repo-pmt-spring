@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vn.id.pmt.spring.constants.ApiResponseResult;
-import vn.id.pmt.spring.dto.ExamDto;
+import vn.id.pmt.spring.dto.response.exam.ExamDto;
 import vn.id.pmt.spring.dto.request.PaginationParams;
 import vn.id.pmt.spring.dto.response.RestApiResponse;
 import vn.id.pmt.spring.service.ExamApiService;

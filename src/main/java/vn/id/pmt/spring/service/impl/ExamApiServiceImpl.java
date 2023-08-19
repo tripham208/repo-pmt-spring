@@ -6,13 +6,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import vn.id.pmt.spring.dto.ExamDto;
+import vn.id.pmt.spring.dto.response.exam.ExamDetailDto;
+import vn.id.pmt.spring.dto.response.exam.ExamDto;
 import vn.id.pmt.spring.dto.request.PaginationParams;
 import vn.id.pmt.spring.entity.jpa.Exam;
 import vn.id.pmt.spring.exception.NotFoundException;
 import vn.id.pmt.spring.repository.jpa.ExamRepository;
-import vn.id.pmt.spring.service.ExamApiService;
 import vn.id.pmt.spring.util.MappingUtil;
+import vn.id.pmt.spring.service.ExamApiService;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,12 +34,12 @@ public class ExamApiServiceImpl implements ExamApiService {
      */
     @Override
     public Optional<Object> getExamById(Integer id) throws NotFoundException {
-        Optional<Exam> user = repository.findById(id);
+        Optional<Exam> exam = repository.findById(id);
 
-        if (user.isEmpty()) {
-            throw new NotFoundException("Not found user.");
+        if (exam.isEmpty()) {
+            throw new NotFoundException("Not found exam.");
         } else {
-            ExamDto examDto = mappingUtil.map(user.get(), ExamDto.class);
+            ExamDetailDto examDto = mappingUtil.map(exam.get(), ExamDetailDto.class);
             return Optional.of(examDto);
         }
     }
@@ -112,7 +113,7 @@ public class ExamApiServiceImpl implements ExamApiService {
             throw new NotFoundException("Not found exam.");
         }
 
-        Exam exam = mappingUtil.map(examDto,Exam.class);
+        Exam exam = mappingUtil.map(examDto, Exam.class);
 
         repository.save(exam);
     }

@@ -10,7 +10,7 @@ import vn.id.pmt.spring.constants.ApiResponseResult;
 import java.io.Serializable;
 
 @Builder
-@JsonPropertyOrder({"result","errorCode", "errorMessage", "data"})
+@JsonPropertyOrder({"result", "errorCode", "errorMessage", "data"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record RestApiResponse<T>(
         @Nonnull ApiResponseResult result,

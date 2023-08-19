@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import vn.id.pmt.spring.dto.ExamResultDto;
 import vn.id.pmt.spring.dto.request.ExamResultParams;
 import vn.id.pmt.spring.dto.request.PaginationParams;
-import vn.id.pmt.spring.entity.jpa.ExamResult;
+import vn.id.pmt.spring.entity.jpa.examresult.ExamResult;
 import vn.id.pmt.spring.exception.NotFoundException;
 import vn.id.pmt.spring.repository.jpa.ExamResultRepository;
 import vn.id.pmt.spring.service.ExamResultApiService;
