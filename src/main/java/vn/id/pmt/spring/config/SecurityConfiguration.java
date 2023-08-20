@@ -16,6 +16,9 @@ import vn.id.pmt.spring.config.auth.JwtAuthFilter;
 import vn.id.pmt.spring.service.AuthenticationService;
 
 
+/**
+ *  Security configuration.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity

@@ -39,7 +39,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final TokenService tokenService;
     private final JwtUtil jwtUtil;
 
-
+    /**
+     * register user
+     *
+     * @param authParams info of user register
+     */
     @Override
     public void register(AuthParams authParams) {
         Optional<User> userResult = Optional.ofNullable(userRepository.findByUsername(authParams.getUsername()));
@@ -59,6 +63,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
     }
 
+    /**
+     * login account
+     *
+     * @param authParams info of account
+     * @return token access
+     */
     @Override
     public AuthResponse login(AuthParams authParams) {
         Optional<User> userResult = Optional.ofNullable(userRepository.findByUsername(authParams.getUsername()));
@@ -83,6 +93,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
     }
 
+    /**
+     * logout account
+     *
+     * @param request request
+     * @param response response
+     * @param authentication authentication
+     */
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         final String authHeader = request.getHeader("Authorization");

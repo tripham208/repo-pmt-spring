@@ -16,6 +16,9 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 
 import java.time.Duration;
 
+/**
+ *  config connect to redis.
+ */
 @Configuration
 public class RedisConfig {
     @Value("${spring.data.redis.host}")
