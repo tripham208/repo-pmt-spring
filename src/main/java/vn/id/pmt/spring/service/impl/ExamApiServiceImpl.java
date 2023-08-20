@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import vn.id.pmt.spring.constants.ErrorCode;
 import vn.id.pmt.spring.dto.response.exam.ExamDetailDto;
 import vn.id.pmt.spring.dto.response.exam.ExamDto;
 import vn.id.pmt.spring.dto.request.PaginationParams;
@@ -37,7 +38,7 @@ public class ExamApiServiceImpl implements ExamApiService {
         Optional<Exam> exam = repository.findById(id);
 
         if (exam.isEmpty()) {
-            throw new NotFoundException("Not found exam.");
+            throw new NotFoundException(ErrorCode.E1004.getMessage());
         } else {
             ExamDetailDto examDto = mappingUtil.map(exam.get(), ExamDetailDto.class);
             return Optional.of(examDto);
@@ -57,7 +58,7 @@ public class ExamApiServiceImpl implements ExamApiService {
         Optional<List<Exam>> examResults = Optional.of(repository.findAll());
 
         if (examResults.get().isEmpty()) {
-            throw new NotFoundException("Not found any records.");
+            throw new NotFoundException(ErrorCode.E1004.getMessage());
         } else {
             List<ExamDto> listExamResultDto = mappingUtil.mapList(examResults.get(), ExamDto.class);
             return Optional.of(listExamResultDto);
@@ -80,7 +81,7 @@ public class ExamApiServiceImpl implements ExamApiService {
 
 
         if (examResults.get().isEmpty()) {
-            throw new NotFoundException("Not found any records");
+            throw new NotFoundException(ErrorCode.E1004.getMessage());
         } else {
             List<ExamDto> examDtoList = (List<ExamDto>) mappingUtil.mapIterable(examResults.get(), ExamDto.class);
             return Optional.of(examDtoList);
@@ -110,7 +111,7 @@ public class ExamApiServiceImpl implements ExamApiService {
         Optional<Exam> examOptional = repository.findById(examDto.getExamId());
 
         if (examOptional.isEmpty()) {
-            throw new NotFoundException("Not found exam.");
+            throw new NotFoundException(ErrorCode.E1004.getMessage());
         }
 
         Exam exam = mappingUtil.map(examDto, Exam.class);
@@ -129,7 +130,7 @@ public class ExamApiServiceImpl implements ExamApiService {
         Optional<Exam> examOptional = repository.findById(id);
 
         if (examOptional.isEmpty()) {
-            throw new NotFoundException("Not found exam.");
+            throw new NotFoundException(ErrorCode.E1004.getMessage());
         }
 
         repository.deleteById(id);

@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import vn.id.pmt.spring.constants.ErrorCode;
 import vn.id.pmt.spring.constants.auth.Role;
 import vn.id.pmt.spring.dto.request.AuthParams;
 import vn.id.pmt.spring.dto.response.AuthResponse;
@@ -74,7 +75,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Optional<User> userResult = Optional.ofNullable(userRepository.findByUsername(authParams.getUsername()));
 
         if (userResult.isEmpty()) {
-            throw new NotFoundException("username " + authParams.getUsername() + " not found!");
+            throw new NotFoundException(ErrorCode.E1004.getMessage().formatted("username " + authParams.getUsername()));
         }
         if (!userResult.get().getStatus()) {
             throw new AccessDeniedException("username " + authParams.getUsername() + " blocked!");

@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import vn.id.pmt.spring.constants.ErrorCode;
 import vn.id.pmt.spring.constants.ApiResponseResult;
 import vn.id.pmt.spring.dto.UserDto;
 import vn.id.pmt.spring.dto.request.PaginationParams;
@@ -139,7 +140,8 @@ public class UserController {
                 response = ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
                         .body(RestApiResponse.builder()
                                 .result(ApiResponseResult.ER)
-                                .data("Could not upload the file: " + file.getOriginalFilename() + "!" + e.getMessage())
+                                .errorCode(ErrorCode.E1001.getCode())
+                                .errorMessage(ErrorCode.E1001.getMessage().formatted(file.getOriginalFilename(), e.getMessage()))
                                 .build());
 
             }
@@ -148,7 +150,8 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(RestApiResponse.builder()
                         .result(ApiResponseResult.ER)
-                        .data("Please upload a csv file!")
+                        .errorCode(ErrorCode.E1000.getCode())
+                        .errorMessage(ErrorCode.E1000.getMessage().formatted("csv"))
                         .build());
     }
 

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import vn.id.pmt.spring.constants.ApiResponseResult;
+import vn.id.pmt.spring.constants.ErrorCode;
 import vn.id.pmt.spring.dto.response.RestApiResponse;
 import vn.id.pmt.spring.exception.AlreadyExistsException;
 import vn.id.pmt.spring.exception.NotFoundException;
@@ -22,6 +23,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleNotFoundException(final NotFoundException ex) {
         RestApiResponse<?> response = RestApiResponse.builder()
                 .result(ApiResponseResult.ER)
+                .errorCode(ErrorCode.E404.getCode())
                 .errorMessage(ex.getMessage())
                 .build();
 
@@ -33,6 +35,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleAlreadyExistsException(final AlreadyExistsException ex) {
         RestApiResponse<?> response = RestApiResponse.builder()
                 .result(ApiResponseResult.ER)
+                .errorCode(ErrorCode.E1002.getCode())
                 .errorMessage(ex.getMessage())
                 .build();
 
@@ -64,10 +67,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<Object> handlePermissionError(final AccessDeniedException ex) {
+    public ResponseEntity<Object> handlePermissionError() {
         RestApiResponse<?> response = RestApiResponse.builder()
                 .result(ApiResponseResult.ER)
-                .errorMessage(ex.getMessage())
+                .errorCode(ErrorCode.E403.getCode())
+                .errorMessage(ErrorCode.E403.getMessage())
                 .build();
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN)

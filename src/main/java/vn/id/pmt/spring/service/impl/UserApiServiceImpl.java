@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import vn.id.pmt.spring.constants.ErrorCode;
 import vn.id.pmt.spring.dto.UserDto;
 import vn.id.pmt.spring.dto.request.PaginationParams;
 import vn.id.pmt.spring.entity.jpa.User;
@@ -43,7 +44,7 @@ public class UserApiServiceImpl implements UserApiService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException("User " + username + " not found!");
+            throw new UsernameNotFoundException(ErrorCode.E1004.getMessage().formatted(username));
         }
         return user;
     }
@@ -60,7 +61,7 @@ public class UserApiServiceImpl implements UserApiService, UserDetailsService {
         Optional<User> user = userRepository.findById(id);
 
         if (user.isEmpty()) {
-            throw new NotFoundException("Not found user.");
+            throw new NotFoundException(ErrorCode.E1004.getMessage());
         } else {
             UserDto userDto = mappingUtil.map(user.get(), UserDto.class);
             return Optional.of(userDto);
@@ -79,7 +80,7 @@ public class UserApiServiceImpl implements UserApiService, UserDetailsService {
 
         User user = userRepository.findByUsername(username);
         if (Objects.isNull(user)) {
-            throw new UsernameNotFoundException("User " + username + " not found!");
+            throw new UsernameNotFoundException(ErrorCode.E1004.getMessage().formatted(username));
         } else {
             UserDto userDto = mappingUtil.map(user, UserDto.class);
             return Optional.of(userDto);
@@ -101,7 +102,7 @@ public class UserApiServiceImpl implements UserApiService, UserDetailsService {
         Optional<Page<User>> users = Optional.of(userRepository.findAll(pageable));
 
         if (users.get().isEmpty()) {
-            throw new NotFoundException("Not found any records");
+            throw new NotFoundException(ErrorCode.E1004.getMessage());
         } else {
             List<UserDto> userDtoList = (List<UserDto>) mappingUtil.mapIterable(users.get(), UserDto.class);
             return Optional.of(userDtoList);
@@ -142,7 +143,7 @@ public class UserApiServiceImpl implements UserApiService, UserDetailsService {
         Optional<User> user = userRepository.findById(userDto.getUserId());
 
         if (user.isEmpty()) {
-            throw new NotFoundException("Not found user.");
+            throw new NotFoundException(ErrorCode.E1004.getMessage());
         }
 
         user.stream().peek(
@@ -165,7 +166,7 @@ public class UserApiServiceImpl implements UserApiService, UserDetailsService {
         Optional<User> userOptional = Optional.ofNullable(userRepository.findByUsername(userDto.getUsername()));
 
         if (userOptional.isPresent()) {
-            throw new AlreadyExistsException("Username " + userDto.getUsername() + "is exits!");
+            throw new AlreadyExistsException(ErrorCode.E1002.getMessage().formatted(userDto.getUsername()));
         }
 
         User user = mappingUtil.map(userDto, User.class);

@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import vn.id.pmt.spring.constants.ErrorCode;
 import vn.id.pmt.spring.dto.ExamResultDto;
 import vn.id.pmt.spring.dto.request.ExamResultParams;
 import vn.id.pmt.spring.dto.request.PaginationParams;
@@ -42,7 +43,7 @@ public class ExamResultApiServiceImpl implements ExamResultApiService {
         Optional<ExamResult> examResult = examResultRepository.findByExamIdAndUserId(params.getExamId(), params.getUserId());
 
         if (examResult.isEmpty()) {
-            throw new NotFoundException("Not found any records.");
+            throw new NotFoundException(ErrorCode.E1004.getMessage());
         } else {
             ExamResultDto examResultDto = mappingUtil.map(examResult.get(), ExamResultDto.class);
             return Optional.of(examResultDto);
@@ -61,7 +62,7 @@ public class ExamResultApiServiceImpl implements ExamResultApiService {
         Optional<List<ExamResult>> examResults = Optional.of(examResultRepository.findAll());
 
         if (examResults.get().isEmpty()) {
-            throw new NotFoundException("Not found any records.");
+            throw new NotFoundException(ErrorCode.E1004.getMessage());
         } else {
             List<ExamResultDto> listExamResultDto = mappingUtil.mapList(examResults.get(), ExamResultDto.class);
             return Optional.of(listExamResultDto);
@@ -84,7 +85,7 @@ public class ExamResultApiServiceImpl implements ExamResultApiService {
 
 
         if (examResults.get().isEmpty()) {
-            throw new NotFoundException("Not found any records");
+            throw new NotFoundException(ErrorCode.E1004.getMessage());
         } else {
             List<ExamResultDto> listExamResultDto = (List<ExamResultDto>) mappingUtil.mapIterable(examResults.get(), ExamResultDto.class);
             return Optional.of(listExamResultDto);
@@ -121,7 +122,7 @@ public class ExamResultApiServiceImpl implements ExamResultApiService {
         Optional<ExamResult> examResult = examResultRepository.findByExamIdAndUserId(params.getExamId(), params.getUserId());
 
         if (examResult.isEmpty()) {
-            throw new NotFoundException("Not found any records.");
+            throw new NotFoundException(ErrorCode.E1004.getMessage());
         } else {
             ExamResultDto examResultDto = mappingUtil.map(examResult.get(), ExamResultDto.class);
             return CSVUtil.exportCSV(List.of(examResultDto));
